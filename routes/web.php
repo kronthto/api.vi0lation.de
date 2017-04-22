@@ -11,6 +11,4 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('https://www.vi0lation.de');
-});
+Route::get('/', 'IndexController@index');
