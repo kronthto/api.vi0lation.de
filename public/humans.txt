@@ -1,0 +1,13 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+/* TEAM */
+        Creator:Tobias Kronthaler
+        From:Bavaria, Germany
+
+/* SITE */
+        Last update:2017-08-11
+        Doctype:JSON
+
+/* TECHNOLOGY COLOPHON */
+        Laravel (PHP)
