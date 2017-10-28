@@ -8,6 +8,12 @@ CORS enabled.
 
 * `/api/ranking/highscore`
 
+## Data
+
+Get a full dump of all my collected Prokyon data here: https://cdn.vi0lation.de/files/prokyon_2012_07_27_to_2016_08_24.7z
+
+Also see: https://www.vi0lation.de/ranking
+
 ## Credits
 
 - [All Contributors][link-contributors]
