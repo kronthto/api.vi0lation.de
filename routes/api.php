@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/cms/{page}', 'CmsController@pageAction')->where('page', '\w+');
+
 Route::group(['prefix' => 'ranking'], function () {
     Route::get('/highscore', 'Ranking\HighscoreController@get');
 });
