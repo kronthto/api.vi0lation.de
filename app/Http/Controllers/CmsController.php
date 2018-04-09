@@ -10,7 +10,9 @@ class CmsController extends Controller
         switch ($page) {
             case 'all':
                 return response()->json([
-                    'about' => '## Vi0 xD
+                    'about' => '# About
+
+## Vi0
 Vi0lation is a German multigaming clan/guild/brigade that formed on AirRivals DE (Prokyon, BCU), and since then continued playing various other MMOs & MOBAs together.
 
 ## TeamSpeak
