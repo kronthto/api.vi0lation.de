@@ -82,7 +82,7 @@ class ChromeRivalsService
                     'ani' => $ani->online,
                     'total' => $ani->online + $bcu->online,
                 ];
-            }, $clustered));
+            }, $clustered, array_keys($clustered)));
         });
     }
 
