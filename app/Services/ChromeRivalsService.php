@@ -77,7 +77,7 @@ class ChromeRivalsService
                 }
 
                 return [
-                    'timestamp' => (new Carbon($ts))->format('c'),
+                    'timestamp' => Carbon::createFromTimestamp($ts)->format('c'),
                     'bcu' => $bcu->online,
                     'ani' => $ani->online,
                     'total' => $ani->online + $bcu->online,
