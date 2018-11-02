@@ -41,7 +41,7 @@ class ChromeRivalsService
      */
     public function getOnlinePlayersHistory(): array
     {
-        return \Cache::remember('cr_OnlinePlayersHistory', 5, function (): Collection {
+        return \Cache::remember('cr_OnlinePlayersHistory', 5, function (): array {
             $table = $this->connection->table('cr_online_crawl');
 
             $data = $table
