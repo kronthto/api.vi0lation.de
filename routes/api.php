@@ -18,3 +18,8 @@ Route::get('/cms/{page}', 'CmsController@pageAction')->where('page', '\w+');
 Route::group(['prefix' => 'ranking'], function () {
     Route::get('/highscore', 'Ranking\HighscoreController@get');
 });
+
+Route::group(['prefix' => 'chromerivals'], function () {
+    Route::get('/playerfame', 'Ranking\CRController@playerFame');
+    Route::get('/onlinecount', 'Ranking\CRController@onlinePlayers');
+});
