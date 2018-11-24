@@ -105,4 +105,44 @@ class CRController extends Controller
 
         return $response;
     }
+
+    public function aggregatedFameHistory(Request $request)
+    {
+        $data = $this->service->getAggrFameHistoryCached($request->get('days', 10), $request->get('groupMinutes', 60));
+
+        $stats = [
+            'byNation' => array_map(function ($rows) {
+                $ret = [
+                    'BCU' => 0,
+                    'ANI' => 0,
+                ];
+
+                foreach ($rows as $row) {
+                    $ret[$row->nation] += $row->diff;
+                }
+
+                return $ret;
+            }, $data),
+            'byGear' => array_map(function ($rows) {
+                $ret = [
+                    'I' => 0,
+                    'M' => 0,
+                    'B' => 0,
+                    'A' => 0,
+                ];
+
+                foreach ($rows as $row) {
+                    $ret[$row->gear] += $row->diff;
+                }
+
+                return $ret;
+            }, $data),
+        ];
+
+        $response = response($stats);
+        $response->setPublic();
+        $response->setMaxAge(3600);
+
+        return $response;
+    }
 }

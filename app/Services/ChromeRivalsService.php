@@ -11,6 +11,8 @@ class ChromeRivalsService
     /** @var ConnectionInterface */
     protected $connection;
 
+    protected $timeframeCache = [];
+
     public function __construct()
     {
         $this->connection = \DB::connection('chromerivals');
@@ -123,6 +125,94 @@ class ChromeRivalsService
             return $data->Gear[0];
         }
         return null;
+    }
+
+    public function getAggrFameHistoryCached(int $backDays, int $aggregateMins): array
+    {
+        $cacheKey = sprintf('craggrfamehist_%d_%d', $aggregateMins, $backDays);
+
+        return \Cache::remember($cacheKey, 150, function () use ($backDays, $aggregateMins): array {
+            return $this->getAggrFameHistory($backDays, $aggregateMins);
+        });
+    }
+
+    public function getAggrFameHistory(int $backDays, int $aggregateMins): array
+    {
+        if ($aggregateMins < 60 || $aggregateMins % 60 !== 0) {
+            abort(400, 'Can only aggregate by full hours');
+        }
+
+        $table = $this->connection->table('cr_playerfame_diffs');
+
+        $since = Carbon::now()->subDays($backDays)->startOfDay();
+
+        $res = [];
+
+        $table->select(['from', 'to', 'diff', 'nation', 'gear'])
+            ->where('from', '>=', $since->toDateTimeString())
+            ->orderBy('from')
+            ->each(function ($row) use (&$res, $aggregateMins) {
+                $timeframe = $this->determineTimeframeCached($row, $aggregateMins);
+                if ($timeframe === null) {
+                    return;
+                }
+                $res[$timeframe->getTimestamp()][] = $row;
+            });
+
+        return $res;
+    }
+
+    protected function determineTimeframeCached($row, int $aggrMinutes): ?Carbon
+    {
+        $cacheKey = sprintf('%s_%s', $row->from, $row->to);
+
+        if (!array_key_exists($cacheKey, $this->timeframeCache)) {
+            $this->timeframeCache[$cacheKey] = $this->determineTimeframe($row, $aggrMinutes);
+        }
+
+        return $this->timeframeCache[$cacheKey];
+    }
+
+    protected function determineTimeframe($row, int $aggrMinutes): ?Carbon
+    {
+        $startDate = new Carbon($row->from);
+        $endDate = new Carbon($row->to);
+
+        $length = $startDate->diffInMinutes($endDate);
+        if ($length > $aggrMinutes * 1.45) {
+            return null;
+        }
+
+        $samplingRef = $startDate->copy()->subDay()->startOfDay()->getTimestamp();
+
+        $diffToSamplingRefSecs = $startDate->getTimestamp() - $samplingRef;
+        $diffToSamplingRefMins = $diffToSamplingRefSecs / 60;
+        $wholeIntervals = (int)(($diffToSamplingRefMins + 0.15 * $length) / $aggrMinutes);
+
+        $firstIntervalStartToCheck = Carbon::createFromTimestamp($samplingRef + 60 * $aggrMinutes * $wholeIntervals);
+        $endOfInterval = $firstIntervalStartToCheck->copy()->addMinutes($aggrMinutes);
+        $endOfNextInterval = $endOfInterval->copy()->addMinutes($aggrMinutes);
+
+        //  echo 'Interval points: ',$firstIntervalStartToCheck->toDateTimeString(),' ',$endOfInterval->toDateTimeString(),' ',$endOfNextInterval->toDateTimeString(),PHP_EOL;
+
+        \assert($endDate->lessThan($endOfNextInterval), 'Two intervals should cover a longer timeframe than the max allowed of 1.45x one timeframe');
+
+        if ($endDate->lessThanOrEqualTo($endOfInterval)) {
+            return $firstIntervalStartToCheck;
+        }
+
+        $timeInFirstInterval = $endOfInterval->diffInMinutes($startDate);
+        $timeInNextInterval = $endOfInterval->diffInMinutes($endDate);
+
+        // echo $timeInFirstInterval,' ', $timeInNextInterval,' ',abs($length - ($timeInFirstInterval + $timeInNextInterval));
+
+        \assert(abs($length - ($timeInFirstInterval + $timeInNextInterval)) <= 2, 'the parts in the two intervals the row overlaps should add up to its total length');
+
+        if ($timeInFirstInterval > $timeInNextInterval) {
+            return $firstIntervalStartToCheck;
+        } else {
+            return $endOfInterval;
+        }
     }
 
     /**
