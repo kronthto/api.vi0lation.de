@@ -44,7 +44,26 @@ class CRController extends Controller
 
     public function topKillsBetween(Request $request)
     {
-        $this->service->getTopKillsBetween(Carbon::parse($request->get('from')), Carbon::parse($request->get('to')));
+        $data = $this->service->getTopKillsBetween(Carbon::parse($request->get('from')), Carbon::parse($request->get('to')));
+
+        $stats = [
+            'byNation' => [
+                'BCU' => $data->where('nation', 'BCU')->sum('diff'),
+                'ANI' => $data->where('nation', 'ANI')->sum('diff'),
+            ],
+            'byGear' => [
+                'I' => $data->where('gear', 'I')->sum('diff'),
+                'M' => $data->where('gear', 'M')->sum('diff'),
+                'B' => $data->where('gear', 'B')->sum('diff'),
+                'A' => $data->where('gear', 'A')->sum('diff'),
+            ],
+        ];
+
+        $response = response(compact('stats', 'data'));
+        $response->setPublic();
+        $response->setMaxAge(86400);
+
+        return $response;
     }
 
     public function playerFame(Request $request)

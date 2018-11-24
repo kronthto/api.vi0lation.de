@@ -34,40 +34,54 @@ class ChromeRivalsService
             ->get();
     }
 
-    public function getTopKillsBetween(Carbon $from, Carbon $to)
+    public function getTopKillsBetween(Carbon $from, Carbon $to, &$fromToUsed = null): Collection
     {
-        // todo: cache
-
         $fromStart = $from->second(0);
-        $fromEnd = $from->copy()->addMinute();
         $toStart = $to->second(0);
-        $toEnd = $to->copy()->addMinute();
 
-        $tmpFrom = sprintf('playerfame_%d', $fromStart->getTimestamp());
-        $tmpTo = sprintf('playerfame_%d', $toStart->getTimestamp());
+        if (!$toStart->greaterThan($fromStart)) {
+            abort(400, 'to needs to be greater than from');
+        }
 
-        $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `'.$tmpFrom.'` AS (SELECT name,fame,extra FROM `cr_ranking_crawl` WHERE `timestamp` >= "'.$fromStart->toDateTimeString().'" AND `timestamp` < "'.$fromEnd->toDateTimeString().'")');
-        $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `'.$tmpTo.'` AS (SELECT name,fame,extra FROM `cr_ranking_crawl` WHERE `timestamp` >= "'.$toStart->toDateTimeString().'" AND `timestamp` < "'.$toEnd->toDateTimeString().'")');
+        $fromToUsed = sprintf('%d_%d', $fromStart->getTimestamp(), $toStart->getTimestamp());
 
-        $res = $this->connection->table($tmpTo)
-            ->select(["$tmpTo.name", "$tmpTo.extra"])
-            ->selectRaw("$tmpTo.fame - $tmpFrom.fame as diff")
-            ->join($tmpFrom, "$tmpTo.name", '=', "$tmpFrom.name")
-            ->having('diff', '>', 0)
-            ->orderByDesc('diff')
-        ->get()
-            ->map(function ($row): array {
-                $extra = json_decode($row->extra);
-                return [
-                    'name' => $row->name,
-                    'diff' => $row->diff,
-                    'nation' => $this->determineNation($extra),
-                    'gear' => $this->determineGear($extra),
-                    'brigade' => $extra->brigade ?? null,
-                ];
-            });
+        return \Cache::remember($fromToUsed, 1000, function () use ($from, $to, $fromStart, $toStart): Collection {
+            $fromEnd = $from->copy()->addMinute();
+            $toEnd = $to->copy()->addMinute();
 
-        dd($res);
+            $tmpFrom = sprintf('playerfame_%d', $fromStart->getTimestamp());
+            $tmpTo = sprintf('playerfame_%d', $toStart->getTimestamp());
+
+            $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpFrom . '` (INDEX (`name`)) AS (SELECT name,fame,extra FROM `cr_ranking_crawl` WHERE `timestamp` >= "' . $fromStart->toDateTimeString() . '" AND `timestamp` < "' . $fromEnd->toDateTimeString() . '")');
+            if (!$this->connection->table($tmpFrom)->count()) {
+                abort(404, 'No data for from date');
+            }
+
+            $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpTo . '` (INDEX (`name`)) AS (SELECT name,fame,extra FROM `cr_ranking_crawl` WHERE `timestamp` >= "' . $toStart->toDateTimeString() . '" AND `timestamp` < "' . $toEnd->toDateTimeString() . '")');
+            if (!$this->connection->table($tmpTo)->count()) {
+                abort(404, 'No data for to date');
+            }
+
+            $res = $this->connection->table($tmpTo)
+                ->select(["$tmpTo.name", "$tmpTo.extra"])
+                ->selectRaw("$tmpTo.fame - $tmpFrom.fame as diff")
+                ->join($tmpFrom, "$tmpTo.name", '=', "$tmpFrom.name")
+                ->having('diff', '>', 0)
+                ->orderByDesc('diff')
+                ->get()
+                ->map(function ($row): array {
+                    $extra = json_decode($row->extra);
+                    return [
+                        'name' => $row->name,
+                        'diff' => $row->diff,
+                        'nation' => $this->determineNation($extra),
+                        'gear' => $this->determineGear($extra),
+                        'brigade' => $extra->brigade ?? null,
+                    ];
+                });
+
+            return $res;
+        });
     }
 
     protected function determineNation($data): ?string
