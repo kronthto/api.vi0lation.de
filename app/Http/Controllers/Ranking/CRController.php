@@ -71,7 +71,7 @@ class CRController extends Controller
 
         $response = response(['name' => $sample->name, 'data' => $dataFormatted]);
         $response->setPublic();
-        $response->setMaxAge(1200);
+        $response->setMaxAge(600);
 
         return $response;
     }
