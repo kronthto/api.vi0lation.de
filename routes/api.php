@@ -23,4 +23,5 @@ Route::group(['prefix' => 'chromerivals'], function () {
     Route::get('/playerfame', 'Ranking\CRController@playerFame');
     Route::get('/onlinecount', 'Ranking\CRController@onlinePlayers');
     Route::get('/ranking-timestamps', 'Ranking\CRController@rankingDates');
+    Route::get('/topkillsinterval', 'Ranking\CRController@topKillsBetween');
 });

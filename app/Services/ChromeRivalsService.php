@@ -34,6 +34,83 @@ class ChromeRivalsService
             ->get();
     }
 
+    public function getTopKillsBetween(Carbon $from, Carbon $to)
+    {
+        // todo: cache
+
+        $fromStart = $from->second(0);
+        $fromEnd = $from->copy()->addMinute();
+        $toStart = $to->second(0);
+        $toEnd = $to->copy()->addMinute();
+
+        $tmpFrom = sprintf('playerfame_%d', $fromStart->getTimestamp());
+        $tmpTo = sprintf('playerfame_%d', $toStart->getTimestamp());
+
+        $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `'.$tmpFrom.'` AS (SELECT name,fame,extra FROM `cr_ranking_crawl` WHERE `timestamp` >= "'.$fromStart->toDateTimeString().'" AND `timestamp` < "'.$fromEnd->toDateTimeString().'")');
+        $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `'.$tmpTo.'` AS (SELECT name,fame,extra FROM `cr_ranking_crawl` WHERE `timestamp` >= "'.$toStart->toDateTimeString().'" AND `timestamp` < "'.$toEnd->toDateTimeString().'")');
+
+        $res = $this->connection->table($tmpTo)
+            ->select(["$tmpTo.name", "$tmpTo.extra"])
+            ->selectRaw("$tmpTo.fame - $tmpFrom.fame as diff")
+            ->join($tmpFrom, "$tmpTo.name", '=', "$tmpFrom.name")
+            ->having('diff', '>', 0)
+            ->orderByDesc('diff')
+        ->get()
+            ->map(function ($row): array {
+                $extra = json_decode($row->extra);
+                return [
+                    'name' => $row->name,
+                    'diff' => $row->diff,
+                    'nation' => $this->determineNation($extra),
+                    'gear' => $this->determineGear($extra),
+                    'brigade' => $extra->brigade ?? null,
+                ];
+            });
+
+        dd($res);
+    }
+
+    protected function determineNation($data): ?string
+    {
+        if (isset($data->nation)) {
+            switch ($data->nation) {
+                case 2:
+                    return 'BCU';
+                case 4:
+                    return 'ANI';
+            }
+        }
+        if (isset($data->Nation)) {
+            switch ($data->Nation) {
+                case 'Bygeniou':
+                    return 'BCU';
+                case 'Arlington':
+                    return 'ANI';
+            }
+        }
+        return null;
+    }
+
+    protected function determineGear($data): ?string
+    {
+        if (isset($data->gear)) {
+            switch ($data->gear) {
+                case 1:
+                    return 'B';
+                case 256:
+                    return 'A';
+                case 4096:
+                    return 'I';
+                case 16:
+                    return 'M';
+            }
+        }
+        if (isset($data->Gear)) {
+            return $data->Gear[0];
+        }
+        return null;
+    }
+
     /**
      * Gets the online player history.
      *

@@ -42,6 +42,11 @@ class CRController extends Controller
         return $response;
     }
 
+    public function topKillsBetween(Request $request)
+    {
+        $this->service->getTopKillsBetween(Carbon::parse($request->get('from')), Carbon::parse($request->get('to')));
+    }
+
     public function playerFame(Request $request)
     {
         $name = (string) $request->get('name');
