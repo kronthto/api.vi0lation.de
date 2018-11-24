@@ -84,7 +84,7 @@ class ChromeRivalsService
         });
     }
 
-    protected function determineNation($data): ?string
+    public static function determineNation($data): ?string
     {
         if (isset($data->nation)) {
             switch ($data->nation) {
@@ -105,7 +105,7 @@ class ChromeRivalsService
         return null;
     }
 
-    protected function determineGear($data): ?string
+    public static function determineGear($data): ?string
     {
         if (isset($data->gear)) {
             switch ($data->gear) {
