@@ -45,7 +45,7 @@ class ChromeRivalsService
 
         $fromToUsed = sprintf('%d_%d', $fromStart->getTimestamp(), $toStart->getTimestamp());
 
-        return \Cache::remember($fromToUsed, 1000, function () use ($from, $to, $fromStart, $toStart): Collection {
+        return \Cache::remember('crtopkills_'.$fromToUsed, 1000, function () use ($from, $to, $fromStart, $toStart): Collection {
             $fromEnd = $from->copy()->addMinute();
             $toEnd = $to->copy()->addMinute();
 
