@@ -1,6 +1,6 @@
 # api.vi0lation.de
 
-JSON-API serving Highscore history data of AirRivals.
+JSON-API serving Highscore history data of AirRivals and [ChromeRivals](https://chromerivals.net).
 
 CORS enabled.
 
