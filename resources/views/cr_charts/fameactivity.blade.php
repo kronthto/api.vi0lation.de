@@ -1,9 +1,7 @@
 @extends('cr_charts.layout')
 
 @section('content')
-    <div>
-        <canvas id="chart"></canvas>
-    </div>
+    <canvas id="chart"></canvas>
 @endsection
 
 @section('after-scripts-end')
