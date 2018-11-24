@@ -1,7 +1,7 @@
 @extends('cr_charts.layout')
 
 @section('content')
-    <div style="height: 500px">
+    <div>
         <canvas id="chart"></canvas>
     </div>
 @endsection
