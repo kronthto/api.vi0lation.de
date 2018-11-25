@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        $schedule->command('cr:aggregatefame', ['day' => Carbon::yesterday()->toDateString()])->dailyAt('01:35');
+        $schedule->command('cr:aggregatefame '.Carbon::yesterday()->toDateString())->dailyAt('01:35');
     }
 
     /**
