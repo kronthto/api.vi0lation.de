@@ -26,7 +26,7 @@
                 responsive: true,
                 title: {
                     display: true,
-                    text: 'Average Fame per ' + groupMinutes + 'min-intervals'
+                    text: 'Aggregated fame per ' + groupMinutes + 'min-intervals'
                 },
                 scales: {
                     xAxes: [{
