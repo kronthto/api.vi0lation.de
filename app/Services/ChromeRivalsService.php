@@ -54,7 +54,7 @@ class ChromeRivalsService
             $tmpFrom = sprintf('playerfame_%d', $fromStart->getTimestamp());
             $tmpTo = sprintf('playerfame_%d', $toStart->getTimestamp());
 
-            $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpFrom . '` (INDEX (`name`)) AS (SELECT name,fame,extra FROM `cr_ranking_crawl` WHERE `timestamp` >= "' . $fromStart->toDateTimeString() . '" AND `timestamp` < "' . $fromEnd->toDateTimeString() . '")');
+            $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpFrom . '` (INDEX (`name`)) AS (SELECT name,fame FROM `cr_ranking_crawl` WHERE `timestamp` >= "' . $fromStart->toDateTimeString() . '" AND `timestamp` < "' . $fromEnd->toDateTimeString() . '")');
             if (!$this->connection->table($tmpFrom)->count()) {
                 abort(404, 'No data for from date');
             }
