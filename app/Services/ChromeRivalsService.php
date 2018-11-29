@@ -66,9 +66,9 @@ class ChromeRivalsService
 
             $res = $this->connection->table($tmpTo)
                 ->select(["$tmpTo.name", "$tmpTo.extra"])
-                ->selectRaw("$tmpTo.fame - $tmpFrom.fame as diff")
+                ->selectRaw("(CAST($tmpTo.fame AS SIGNED) - CAST($tmpFrom.fame AS SIGNED)) as diff")
                 ->join($tmpFrom, "$tmpTo.name", '=', "$tmpFrom.name")
-                ->having('diff', '>', 0)
+                ->having('diff', '!=', 0)
                 ->orderByDesc('diff')
                 ->get()
                 ->map(function ($row): array {
