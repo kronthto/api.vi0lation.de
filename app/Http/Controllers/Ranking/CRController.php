@@ -21,7 +21,7 @@ class CRController extends Controller
 
     public function rankingDates()
     {
-        $timestamps = \Cache::remember('cr_playerfame_timestamps', 6, function () : Collection {
+        $timestamps = \Cache::remember('cr_playerfame_timestamps', 4, function () : Collection {
             $tbl = \DB::connection('chromerivals')->table('cr_ranking_crawl');
             return $tbl->select(['timestamp'])->groupBy('timestamp')->pluck('timestamp')->map(function ($ts): \DateTime {
                 return Carbon::parse($ts)->second(0);
@@ -37,7 +37,7 @@ class CRController extends Controller
         ]);
 
         $response->setPublic();
-        $response->setMaxAge(300);
+        $response->setMaxAge(150);
 
         return $response;
     }
