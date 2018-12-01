@@ -46,16 +46,35 @@ class CRController extends Controller
     {
         $data = $this->service->getTopKillsBetween(Carbon::parse($request->get('from')), Carbon::parse($request->get('to')));
 
+        $ig = $data->where('gear', 'I');
+        $mg = $data->where('gear', 'M');
+        $bg = $data->where('gear', 'B');
+        $ag = $data->where('gear', 'A');
+
         $stats = [
             'byNation' => [
                 'BCU' => $data->where('nation', 'BCU')->sum('diff'),
                 'ANI' => $data->where('nation', 'ANI')->sum('diff'),
             ],
             'byGear' => [
-                'I' => $data->where('gear', 'I')->sum('diff'),
-                'M' => $data->where('gear', 'M')->sum('diff'),
-                'B' => $data->where('gear', 'B')->sum('diff'),
-                'A' => $data->where('gear', 'A')->sum('diff'),
+                'I' => $ig->sum('diff'),
+                'M' => $mg->sum('diff'),
+                'B' => $bg->sum('diff'),
+                'A' => $ag->sum('diff'),
+            ],
+            'counts' => [
+                'BCU' => [
+                    'I' => $ig->where('nation', 'BCU')->count(),
+                    'M' => $mg->where('nation', 'BCU')->count(),
+                    'B' => $bg->where('nation', 'BCU')->count(),
+                    'A' => $ag->where('nation', 'BCU')->count(),
+                ],
+                'ANI' => [
+                    'I' => $ig->where('nation', 'ANI')->count(),
+                    'M' => $mg->where('nation', 'ANI')->count(),
+                    'B' => $bg->where('nation', 'ANI')->count(),
+                    'A' => $ag->where('nation', 'ANI')->count(),
+                ],
             ],
         ];
 
