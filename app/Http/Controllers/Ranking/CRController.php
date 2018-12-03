@@ -134,10 +134,15 @@ class CRController extends Controller
                 $ret = [
                     'BCU' => 0,
                     'ANI' => 0,
+                    'BCU_Players' => 0,
+                    'ANI_Players' => 0,
                 ];
 
                 foreach ($rows as $row) {
                     $ret[$row->nation] += $row->diff;
+                    if ($row->diff > 0) {
+                        $ret[$row->nation.'_Players']++;
+                    }
                 }
 
                 return $ret;
