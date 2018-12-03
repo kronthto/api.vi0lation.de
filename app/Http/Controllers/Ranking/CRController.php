@@ -134,16 +134,15 @@ class CRController extends Controller
                 $ret = [
                     'BCU' => 0,
                     'ANI' => 0,
-                    'BCU_Players' => 0,
-                    'ANI_Players' => 0,
                 ];
 
                 foreach ($rows as $row) {
                     $ret[$row->nation] += $row->diff;
-                    if ($row->diff > 0) {
-                        $ret[$row->nation.'_Players']++;
-                    }
                 }
+
+                $uniqueActivePlayers = collect($rows)->where('diff', '>', 0)->unique('name');
+                $ret['BCU_Players'] = $uniqueActivePlayers->where('nation', 'BCU')->count();
+                $ret['ANI_Players'] = $uniqueActivePlayers->where('nation', 'ANI')->count();
 
                 return $ret;
             }, $data),

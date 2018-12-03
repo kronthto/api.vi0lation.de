@@ -148,7 +148,7 @@ class ChromeRivalsService
 
         $res = [];
 
-        $table->select(['from', 'to', 'diff', 'nation', 'gear'])
+        $table->select(['from', 'to', 'diff', 'nation', 'gear','name'])
             ->where('from', '>=', $since->toDateTimeString())
             ->orderBy('from')
             ->each(function ($row) use (&$res, $aggregateMins) {
