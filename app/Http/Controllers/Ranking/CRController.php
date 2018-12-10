@@ -95,7 +95,7 @@ class CRController extends Controller
         $data = $this->service->getPlayerFameHistory($name);
 
         if ($data->isEmpty()) {
-            return response('no data found', Response::HTTP_NOT_FOUND);
+            return response()->json('no data found', Response::HTTP_NOT_FOUND);
         }
 
         $dataFormatted = $data->map(function ($fameRow): array {
