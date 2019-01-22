@@ -78,7 +78,7 @@ class ChromeRivalsService
                                 $q
                                     ->whereNotNull("$tmpFrom.startTime")
                                     ->whereNotNull("$tmpTo.startTime")
-                                    ->where("$tmpTo.startTime", '=', "$tmpFrom.startTime");
+                                    ->whereColumn("$tmpTo.startTime", '=', "$tmpFrom.startTime");
                             })
                             ->orWhere(function (Builder $q) use ($tmpFrom, $tmpTo) {
                                 $q
@@ -87,7 +87,7 @@ class ChromeRivalsService
                                             ->whereNull("$tmpFrom.startTime")
                                             ->orWhereNull("$tmpTo.startTime");
                                     })
-                                    ->where("$tmpTo.name", '=', "$tmpFrom.name");
+                                    ->whereColumn("$tmpTo.name", '=', "$tmpFrom.name");
                             });
                     })
                     ->having('diff', '!=', 0)
