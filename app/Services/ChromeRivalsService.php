@@ -64,7 +64,7 @@ class ChromeRivalsService
                     abort(404, 'No data for from date');
                 }
 
-                $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpTo . '` (INDEX (`name`),INDEX (`startTime`)) AS (SELECT name,fame,extra,CAST(JSON_VALUE(extra,"$.startTime") as char(23)) as startTime FROM `cr_ranking_crawl` WHERE `timestamp` >= "' . $toStart->toDateTimeString() . '" AND `timestamp` < "' . $toEnd->toDateTimeString() . '")');
+                $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpTo . '` (INDEX (`name`),INDEX (`startTime`)) AS (SELECT name,fame,extra,CAST(JSON_VALUE(extra,"$.startTime") as char(23)) as startTime FROM `cr_ranking_crawl` WHERE `timestamp` >= "' . $toStart->toDateTimeString() . '" AND `timestamp` < "' . $toEnd->toDateTimeString() . '" and fame > 0)');
                 if (!$this->connection->table($tmpTo)->count()) {
                     abort(404, 'No data for to date');
                 }
