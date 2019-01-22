@@ -104,6 +104,7 @@ class ChromeRivalsService
                     return 'ANI';
             }
         }
+
         return null;
     }
 
@@ -124,6 +125,7 @@ class ChromeRivalsService
         if (isset($data->Gear)) {
             return $data->Gear[0];
         }
+
         return null;
     }
 
@@ -148,7 +150,7 @@ class ChromeRivalsService
 
         $res = [];
 
-        $table->select(['from', 'to', 'diff', 'nation', 'gear','name'])
+        $table->select(['from', 'to', 'diff', 'nation', 'gear', 'name'])
             ->where('from', '>=', $since->toDateTimeString())
             ->orderBy('from')
             ->each(function ($row) use (&$res, $aggregateMins) {
@@ -187,7 +189,7 @@ class ChromeRivalsService
 
         $diffToSamplingRefSecs = $startDate->getTimestamp() - $samplingRef;
         $diffToSamplingRefMins = $diffToSamplingRefSecs / 60;
-        $wholeIntervals = (int)(($diffToSamplingRefMins + 0.15 * $length) / $aggrMinutes);
+        $wholeIntervals = (int) (($diffToSamplingRefMins + 0.15 * $length) / $aggrMinutes);
 
         $firstIntervalStartToCheck = Carbon::createFromTimestamp($samplingRef + 60 * $aggrMinutes * $wholeIntervals);
         $endOfInterval = $firstIntervalStartToCheck->copy()->addMinutes($aggrMinutes);
@@ -195,7 +197,10 @@ class ChromeRivalsService
 
         //  echo 'Interval points: ',$firstIntervalStartToCheck->toDateTimeString(),' ',$endOfInterval->toDateTimeString(),' ',$endOfNextInterval->toDateTimeString(),PHP_EOL;
 
-        \assert($endDate->lessThan($endOfNextInterval), 'Two intervals should cover a longer timeframe than the max allowed of 1.45x one timeframe');
+        \assert(
+            $endDate->lessThan($endOfNextInterval),
+            'Two intervals should cover a longer timeframe than the max allowed of 1.45x one timeframe'
+        );
 
         if ($endDate->lessThanOrEqualTo($endOfInterval)) {
             return $firstIntervalStartToCheck;
@@ -206,7 +211,10 @@ class ChromeRivalsService
 
         // echo $timeInFirstInterval,' ', $timeInNextInterval,' ',abs($length - ($timeInFirstInterval + $timeInNextInterval));
 
-        \assert(abs($length - ($timeInFirstInterval + $timeInNextInterval)) <= 2, 'the parts in the two intervals the row overlaps should add up to its total length');
+        \assert(
+            abs($length - ($timeInFirstInterval + $timeInNextInterval)) <= 2,
+            'the parts in the two intervals the row overlaps should add up to its total length'
+        );
 
         if ($timeInFirstInterval > $timeInNextInterval) {
             return $firstIntervalStartToCheck;
