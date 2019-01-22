@@ -82,7 +82,9 @@
 
         var seriesColorCoding = {
             'BCU': '#F5B930',
+            'BCU_Players': '#F5B930',
             'ANI': '#00FFFF',
+            'ANI_Players': '#00FFFF',
             'I': '#0078ff',
             'M': '#ff0000',
             'B': '#ffb400',
