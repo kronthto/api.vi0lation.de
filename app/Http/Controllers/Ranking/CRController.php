@@ -85,6 +85,25 @@ class CRController extends Controller
         return $response;
     }
 
+    public function brigKillsBetween(Request $request)
+    {
+        $data = $this->service->getTopKillsBetweenBrigade(Carbon::parse($request->get('from')), Carbon::parse($request->get('to')));
+
+        $stats = [
+            'byNation' => [
+                'BCU' => $data->where('nation', 'BCU')->sum('diff'),
+                'ANI' => $data->where('nation', 'ANI')->sum('diff'),
+            ],
+        ];
+
+        $response = response(compact('stats', 'data'));
+        $response->setPublic();
+        $response->setMaxAge(86400);
+
+        return $response;
+    }
+
+
     public function playerFame(Request $request)
     {
         $name = (string) $request->get('name');

@@ -110,6 +110,61 @@ class ChromeRivalsService
         );
     }
 
+    public function getTopKillsBetweenBrigade(Carbon $from, Carbon $to, &$fromToUsed = null): Collection
+    {
+        $fromStart = $from->second(0);
+        $toStart = $to->second(0);
+
+        if (!$toStart->greaterThan($fromStart)) {
+            abort(400, 'to needs to be greater than from');
+        }
+
+        $fromToUsed = sprintf('%d_%d', $fromStart->getTimestamp(), $toStart->getTimestamp());
+
+        return \Cache::remember(
+            'crtopkillsbrig_' . $fromToUsed,
+            1000,
+            function () use ($from, $to, $fromStart, $toStart): Collection {
+                $fromEnd = $from->copy()->addMinute();
+                $toEnd = $to->copy()->addMinute();
+
+                $tmpFrom = sprintf('brigfame_%d', $fromStart->getTimestamp());
+                $tmpTo = sprintf('brigfame_%d', $toStart->getTimestamp());
+
+                $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpFrom . '` (INDEX (`name`)) AS (SELECT name,fame FROM `cr_brigranking_crawl` WHERE `timestamp` >= "' . $fromStart->toDateTimeString() . '" AND `timestamp` < "' . $fromEnd->toDateTimeString() . '")');
+                if (!$this->connection->table($tmpFrom)->count()) {
+                    abort(404, 'No data for from date');
+                }
+
+                $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpTo . '` (INDEX (`name`)) AS (SELECT name,fame,extra FROM `cr_brigranking_crawl` WHERE `timestamp` >= "' . $toStart->toDateTimeString() . '" AND `timestamp` < "' . $toEnd->toDateTimeString() . '" and fame > 0)');
+                if (!$this->connection->table($tmpTo)->count()) {
+                    abort(404, 'No data for to date');
+                }
+
+                $res = $this->connection->table($tmpTo)
+                    ->select(["$tmpTo.name", "$tmpTo.extra"])
+                    ->selectRaw("(CAST($tmpTo.fame AS SIGNED) - CAST($tmpFrom.fame AS SIGNED)) as diff")
+                    ->join($tmpFrom, "$tmpTo.name", '=', "$tmpFrom.name")
+                    ->having('diff', '!=', 0)
+                    ->orderByDesc('diff')
+                    ->get()
+                    ->map(function ($row): array {
+                        $extra = json_decode($row->extra);
+
+                        return [
+                            'name' => $row->name,
+                            'diff' => $row->diff,
+                            'nation' => $this->determineNation($extra),
+                            'leader' => $extra->leader,
+                            'outpost' => $extra->outpost,
+                        ];
+                    });
+
+                return $res;
+            }
+        );
+    }
+
     public static function determineNation($data): ?string
     {
         if (isset($data->nation)) {

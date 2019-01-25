@@ -11,6 +11,7 @@ CORS enabled.
 * `/api/chromerivals/onlinecount`
 * `/api/chromerivals/ranking-timestamps`
 * `/api/chromerivals/topkillsinterval?from=date&to=date`
+* `/api/chromerivals/brigkillsinterval?from=date&to=date`
 * `/api/chromerivals/fame-activity?days=10&groupMinutes=60`
 
 ## Data
