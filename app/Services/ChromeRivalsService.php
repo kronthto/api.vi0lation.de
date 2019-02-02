@@ -354,6 +354,21 @@ class ChromeRivalsService
         });
     }
 
+    public function fetchBriglogo(string $brigName): ?string
+    {
+        $hit = $this->connection
+            ->table('cr_brig_emblems')
+            ->select()
+            ->where('name', '=', $brigName)
+            ->first();
+
+        if (!$hit) {
+            return null;
+        }
+
+        return $hit->data;
+    }
+
     protected function closestMinute(Carbon $dt): Carbon
     {
         $seconds = $dt->second;

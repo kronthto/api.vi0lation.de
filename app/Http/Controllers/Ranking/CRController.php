@@ -187,4 +187,40 @@ class CRController extends Controller
 
         return $response;
     }
+
+    protected function brigLogoResp(string $binaryContent): Response
+    {
+        return response($binaryContent, 200, [
+            'Content-Type' => 'image/png',
+        ])
+            ->setMaxAge(50000)
+            ->setPublic();
+    }
+
+    public function brigLogo(Request $request)
+    {
+        $brigName = $request->get('name');
+        if (!$brigName) {
+            abort(400, 'Brig name required');
+        }
+
+        $binaryContent = \Cache::remember(sprintf('CR_Briglogo_%s', sha1($brigName)), 180, function() use ($brigName) {
+            $data = $this->service->fetchBriglogo($brigName);
+            if (!$data) {
+                abort(404, 'Brigade not found or no logo');
+            }
+
+            $im = new \Imagick();
+            $im->readImageBlob($data);
+            $im->setImageFormat('png');
+
+            $binaryContent = $im->getImageBlob();
+            if (!$binaryContent) {
+                throw new \RuntimeException('Empty PNG image blob returned for '.$brigName);
+            }
+            return $binaryContent;
+        });
+
+        return $this->brigLogoResp($binaryContent);
+    }
 }
