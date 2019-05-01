@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46114dbc17561f71f1b51f90dc273e14",
+    "content-hash": "214e23f54d9b849a804fff8b14c812ca",
     "packages": [
         {
             "name": "barryvdh/laravel-cors",
@@ -415,6 +415,84 @@
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
+            "name": "kronthto/aceonline-archive",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kronthto/ao-archive.git",
+                "reference": "723d5344b7aec54456debd52cbb746974a25f7e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kronthto/ao-archive/zipball/723d5344b7aec54456debd52cbb746974a25f7e0",
+                "reference": "723d5344b7aec54456debd52cbb746974a25f7e0",
+                "shasum": ""
+            },
+            "require": {
+                "mdurrant/php-binary-reader": "^1.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kronthto\\AOArchive\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Kronthaler",
+                    "email": "kronthto@gmail.com"
+                }
+            ],
+            "time": "2019-04-21T13:44:24+00:00"
+        },
+        {
+            "name": "kronthto/aceonline-assetencrypt",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kronthto/ao-assetencrypt.git",
+                "reference": "74dad4c9b7b2b4872abdaa5a78e5fa3792956de5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kronthto/ao-assetencrypt/zipball/74dad4c9b7b2b4872abdaa5a78e5fa3792956de5",
+                "reference": "74dad4c9b7b2b4872abdaa5a78e5fa3792956de5",
+                "shasum": ""
+            },
+            "require": {
+                "kronthto/aceonline-archive": "dev-master#25fe40096ad23a81d2175f538d0eeaaba8d8b1a1",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kronthto\\AOEncrypt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Kronthaler",
+                    "email": "kronthto@gmail.com"
+                }
+            ],
+            "time": "2019-02-09T22:01:10+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v5.5.44",
             "source": {
@@ -694,6 +772,54 @@
                 "storage"
             ],
             "time": "2018-11-23T23:41:29+00:00"
+        },
+        {
+            "name": "mdurrant/php-binary-reader",
+            "version": "1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mdurrant/php-binary-reader.git",
+                "reference": "9abf18d7b361d0ae1cd80fc6782e59b313586db6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mdurrant/php-binary-reader/zipball/9abf18d7b361d0ae1cd80fc6782e59b313586db6",
+                "reference": "9abf18d7b361d0ae1cd80fc6782e59b313586db6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpBinaryReader\\": [
+                        "src/",
+                        "test/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matt Durrant",
+                    "email": "mdurrant@gmail.com"
+                }
+            ],
+            "description": "Lightweight binary reader for PHP",
+            "time": "2016-12-08T01:24:19+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2990,7 +3116,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "kronthto/aceonline-archive": 20,
+        "kronthto/aceonline-assetencrypt": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
