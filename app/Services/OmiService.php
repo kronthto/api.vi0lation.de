@@ -32,7 +32,7 @@ class OmiService
 
     protected function loadData(): OmiReadResult
     {
-        return igbinary_unserialize(\Cache::remember(sprintf('omi.tex_'.$this->ns), 360, function(): string {
+        return igbinary_unserialize(\Cache::rememberForever(sprintf('omi.tex_'.$this->ns), function(): string {
             $omiReader = new \Kronthto\AOArchive\Omi\Reader\OmiReader();
 
             $readOmi = $omiReader->parse(file_get_contents($this->path));
