@@ -22,8 +22,8 @@ class CRController extends Controller
     public function rankingDates()
     {
         $timestamps = \Cache::remember('cr_playerfame_timestamps', 4, function () : Collection {
-            $tbl = \DB::connection('chromerivals')->table('cr_ranking_crawl');
-            return $tbl->select(['timestamp'])->groupBy('timestamp')->pluck('timestamp')->map(function ($ts): \DateTime {
+            $tbl = \DB::connection('chromerivals')->table('cr_crawl_dates');
+            return $tbl->select(['timestamp'])->distinct()->pluck('timestamp')->map(function ($ts): \DateTime {
                 return Carbon::parse($ts)->second(0);
             })->unique(function (\DateTime $dt): int {
                 return $dt->getTimestamp();

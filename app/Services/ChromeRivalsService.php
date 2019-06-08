@@ -58,38 +58,27 @@ class ChromeRivalsService
 
                 $tmpFrom = sprintf('playerfame_%d', $fromStart->getTimestamp());
                 $tmpTo = sprintf('playerfame_%d', $toStart->getTimestamp());
-
-                $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpFrom . '` (INDEX (`name`),INDEX (`startTime`)) AS (SELECT name,fame,CAST(JSON_VALUE(extra,"$.startTime") as char(23)) as startTime FROM `cr_ranking_crawl` WHERE `timestamp` >= "' . $fromStart->toDateTimeString() . '" AND `timestamp` < "' . $fromEnd->toDateTimeString() . '")');
+                $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpFrom . '` (INDEX (`player_id`)) AS (SELECT player_id,fame FROM `cr_player_ranking_history` WHERE `timestamp` >= "' . $fromStart->toDateTimeString() . '" AND `timestamp` < "' . $fromEnd->toDateTimeString() . '")');
                 if (!$this->connection->table($tmpFrom)->count()) {
                     abort(404, 'No data for from date');
                 }
 
-                $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpTo . '` (INDEX (`name`),INDEX (`startTime`)) AS (SELECT name,fame,extra,CAST(JSON_VALUE(extra,"$.startTime") as char(23)) as startTime FROM `cr_ranking_crawl` WHERE `timestamp` >= "' . $toStart->toDateTimeString() . '" AND `timestamp` < "' . $toEnd->toDateTimeString() . '" and fame > 0)');
+                $this->connection->unprepared('CREATE TEMPORARY TABLE IF NOT EXISTS `' . $tmpTo . '` (INDEX (`player_id`)) AS (SELECT player_id,fame FROM `cr_player_ranking_history` WHERE `timestamp` >= "' . $toStart->toDateTimeString() . '" AND `timestamp` < "' . $toEnd->toDateTimeString() . '" and fame > 0)');
                 if (!$this->connection->table($tmpTo)->count()) {
                     abort(404, 'No data for to date');
                 }
 
                 $res = $this->connection->table($tmpTo)
-                    ->select(["$tmpTo.name", "$tmpTo.extra"])
+                    ->select(['cr_player_ids.data as extra'])
                     ->selectRaw("(CAST($tmpTo.fame AS SIGNED) - CAST($tmpFrom.fame AS SIGNED)) as diff")
                     ->join($tmpFrom, function (JoinClause $joinClause) use ($tmpFrom, $tmpTo) {
                         $joinClause
                             ->where(function (Builder $q) use ($tmpFrom, $tmpTo) {
                                 $q
-                                    ->whereNotNull("$tmpFrom.startTime")
-                                    ->whereNotNull("$tmpTo.startTime")
-                                    ->whereColumn("$tmpTo.startTime", '=', "$tmpFrom.startTime");
-                            })
-                            ->orWhere(function (Builder $q) use ($tmpFrom, $tmpTo) {
-                                $q
-                                    ->where(function (Builder $q) use ($tmpFrom, $tmpTo) {
-                                        $q
-                                            ->whereNull("$tmpFrom.startTime")
-                                            ->orWhereNull("$tmpTo.startTime");
-                                    })
-                                    ->whereColumn("$tmpTo.name", '=', "$tmpFrom.name");
+                                    ->whereColumn("$tmpTo.player_id", '=', "$tmpFrom.player_id");
                             });
                     })
+                    ->join('cr_player_ids', "$tmpTo.player_id", '=', 'cr_player_ids.id')
                     ->having('diff', '!=', 0)
                     ->orderByDesc('diff')
                     ->get()
@@ -97,7 +86,7 @@ class ChromeRivalsService
                         $extra = json_decode($row->extra);
 
                         return [
-                            'name' => $row->name,
+                            'name' => $extra->name,
                             'diff' => $row->diff,
                             'nation' => $this->determineNation($extra),
                             'gear' => $this->determineGear($extra),
