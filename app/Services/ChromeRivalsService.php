@@ -50,7 +50,7 @@ class ChromeRivalsService
             ->get();
 
         // Hack in the name into the last element used as sample as we no longer fetch it to every row
-        $res->last()->name = json_decode($playerIdQuery->data)->name;
+        $res->last()->name = json_decode($playerIdQuery->first()->data)->name;
 
         return $res;
     }
