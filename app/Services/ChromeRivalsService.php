@@ -29,11 +29,14 @@ class ChromeRivalsService
      */
     public function getPlayerFameHistory(string $name): Collection
     {
-        $table = $this->connection->table('cr_ranking_crawl');
+        $uniqSelect = $this->connection->table('cr_players')->select(['uniq'])->where('name', '=', $name)->orderBy('timestamp_last', 'desc')->limit(1);
+        $playerIdSelect = $this->connection->table('cr_player_ids')->select(['id'])->whereIn('uniq', $uniqSelect);
+
+        $table = $this->connection->table('cr_player_ranking_history');
 
         return $table
-            ->select(['fame', 'timestamp', 'name'])
-            ->where('name', '=', $name)
+            ->select(['fame', 'timestamp'])
+            ->whereIn('player_id', $playerIdSelect)
             ->orderBy('timestamp', 'asc')
             ->get();
     }
