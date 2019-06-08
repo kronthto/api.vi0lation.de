@@ -29,14 +29,23 @@ class ChromeRivalsService
      */
     public function getPlayerFameHistory(string $name): Collection
     {
-        $uniqSelect = $this->connection->table('cr_players')->select(['uniq'])->where('name', '=', $name)->orderBy('timestamp_last', 'desc')->limit(1);
-        $playerIdSelect = $this->connection->table('cr_player_ids')->select(['id'])->whereIn('uniq', $uniqSelect);
+        $uniqToLatestNameQuery = $this->connection->table('cr_players')->select(['uniq'])->where('name', '=', $name)->orderBy('timestamp_last', 'desc')->limit(1)->get();
+
+        if ($uniqToLatestNameQuery->isEmpty()) {
+            return new Collection();
+        }
+
+        $playerIdQuery = $this->connection->table('cr_player_ids')->select(['id'])->where('uniq', '=', $uniqToLatestNameQuery->first()->uniq)->get();
+
+        if ($playerIdQuery->isEmpty()) {
+            throw new \LogicException('No player_id found to known name/uniq');
+        }
 
         $table = $this->connection->table('cr_player_ranking_history');
 
         return $table
             ->select(['fame', 'timestamp'])
-            ->whereIn('player_id', $playerIdSelect)
+            ->where('player_id', $playerIdQuery->first()->id)
             ->orderBy('timestamp', 'asc')
             ->get();
     }
