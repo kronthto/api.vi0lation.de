@@ -35,7 +35,7 @@ class ChromeRivalsService
             return new Collection();
         }
 
-        $playerIdQuery = $this->connection->table('cr_player_ids')->select(['id'])->where('uniq', '=', $uniqToLatestNameQuery->first()->uniq)->get();
+        $playerIdQuery = $this->connection->table('cr_player_ids')->select(['id', 'data'])->where('uniq', '=', $uniqToLatestNameQuery->first()->uniq)->get();
 
         if ($playerIdQuery->isEmpty()) {
             throw new \LogicException('No player_id found to known name/uniq');
@@ -43,11 +43,16 @@ class ChromeRivalsService
 
         $table = $this->connection->table('cr_player_ranking_history');
 
-        return $table
+        $res = $table
             ->select(['fame', 'timestamp'])
             ->where('player_id', $playerIdQuery->first()->id)
             ->orderBy('timestamp', 'asc')
             ->get();
+
+        // Hack in the name into the last element used as sample as we no longer fetch it to every row
+        $res->last()->name = json_decode($playerIdQuery->data)->name;
+
+        return $res;
     }
 
     public function getTopKillsBetween(Carbon $from, Carbon $to, &$fromToUsed = null): Collection
