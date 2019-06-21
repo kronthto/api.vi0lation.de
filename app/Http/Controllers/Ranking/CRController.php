@@ -111,7 +111,10 @@ class CRController extends Controller
             return response('name is required', Response::HTTP_BAD_REQUEST);
         }
 
-        $data = $this->service->getPlayerFameHistory($name);
+        $from = $request->has('from') ? Carbon::parse($request->get('from')) : null;
+        $to = $request->has('to') ? Carbon::parse($request->get('to')) : null;
+
+        $data = $this->service->getPlayerFameHistory($name, $from, $to);
 
         if ($data->isEmpty()) {
             return response()->json('no data found', Response::HTTP_NOT_FOUND);

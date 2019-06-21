@@ -24,10 +24,12 @@ class ChromeRivalsService
      * Gets the highscore/fame history data for a given player name.
      *
      * @param string $name
+     * @param Carbon|null $from
+     * @param Carbon|null $to
      *
      * @return Collection
      */
-    public function getPlayerFameHistory(string $name): Collection
+    public function getPlayerFameHistory(string $name, Carbon $from = null, Carbon $to = null): Collection
     {
         $uniqToLatestNameQuery = $this->connection->table('cr_players')->select(['uniq'])->where('name', '=', $name)->orderBy('timestamp_last', 'desc')->limit(1)->get();
 
@@ -43,11 +45,19 @@ class ChromeRivalsService
 
         $table = $this->connection->table('cr_player_ranking_history');
 
-        $res = $table
+        $q = $table
             ->select(['fame', 'timestamp'])
             ->where('player_id', $playerIdQuery->first()->id)
-            ->orderBy('timestamp', 'asc')
-            ->get();
+            ->orderBy('timestamp', 'asc');
+
+        if ($from) {
+            $q->where('timestamp', '>=', $from->startOfMinute());
+        }
+        if ($to) {
+            $q->where('timestamp', '<=', $to->endOfMinute());
+        }
+
+        $res = $q->get();
 
         // Hack in the name into the last element used as sample as we no longer fetch it to every row
         $res->last()->name = json_decode($playerIdQuery->first()->data)->name;
