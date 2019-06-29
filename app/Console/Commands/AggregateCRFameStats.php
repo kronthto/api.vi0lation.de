@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
 
+// Out of order
 class AggregateCRFameStats extends Command
 {
     protected $signature = 'cr:aggregatefame {day}';

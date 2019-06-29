@@ -228,7 +228,7 @@ class ChromeRivalsService
     {
         $cacheKey = sprintf('craggrfamehist_%d_%d', $aggregateMins, $backDays);
 
-        return \Cache::remember($cacheKey, 150, function () use ($backDays, $aggregateMins): array {
+        return \Cache::remember($cacheKey, 20, function () use ($backDays, $aggregateMins): array {
             return $this->getAggrFameHistory($backDays, $aggregateMins);
         });
     }

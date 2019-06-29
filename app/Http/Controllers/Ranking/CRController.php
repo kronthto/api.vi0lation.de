@@ -21,7 +21,7 @@ class CRController extends Controller
 
     public function rankingDates()
     {
-        $timestamps = \Cache::remember('cr_playerfame_timestamps', 4, function () : Collection {
+        $timestamps = \Cache::remember('cr_playerfame_timestamps', 2, function () : Collection {
             $tbl = \DB::connection('chromerivals')->table('cr_crawl_dates');
             return $tbl->select(['timestamp'])->distinct()->pluck('timestamp')->map(function ($ts): \DateTime {
                 return Carbon::parse($ts)->second(0);
@@ -37,7 +37,7 @@ class CRController extends Controller
         ]);
 
         $response->setPublic();
-        $response->setMaxAge(150);
+        $response->setMaxAge(90);
 
         return $response;
     }
@@ -131,7 +131,7 @@ class CRController extends Controller
 
         $response = response(['name' => $sample->name, 'data' => $dataFormatted]);
         $response->setPublic();
-        $response->setMaxAge(600);
+        $response->setMaxAge($to ? 86400 : 600);
 
         return $response;
     }
@@ -162,7 +162,7 @@ class CRController extends Controller
                     $ret[$row->nation] += $row->diff;
                 }
 
-                $uniqueActivePlayers = collect($rows)->where('diff', '>', 0)->unique('name');
+                $uniqueActivePlayers = collect($rows)->where('diff', '>', 0)->unique('name'); // suboptimal, we now also have player_id, but not for all rows
                 $ret['BCU_Players'] = $uniqueActivePlayers->where('nation', 'BCU')->count();
                 $ret['ANI_Players'] = $uniqueActivePlayers->where('nation', 'ANI')->count();
 
