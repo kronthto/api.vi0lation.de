@@ -36,7 +36,7 @@ class XFeedCheck extends Command
         $db->table('cr_player_ids')->select('id', 'data')
             ->whereIn('id', $rows->pluck('player_id'))->get()->each(function($row) use (&$plNameMap) {
                 $data = json_decode($row->data);
-                $plNameMap[$row->player_id] = sprintf('%s (plid %d created %s)', $data->name, $row->player_id, $data->startTime);
+                $plNameMap[$row->id] = sprintf('%s (plid %d created %s)', $data->name, $row->id, $data->startTime);
             });
 
 
