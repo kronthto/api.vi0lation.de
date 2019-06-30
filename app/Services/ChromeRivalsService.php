@@ -235,7 +235,7 @@ class ChromeRivalsService
 
     public function getAggrFameHistory(int $backDays, int $aggregateMins): array
     {
-        if ($aggregateMins < 60 || $aggregateMins % 60 !== 0) {
+        if (($aggregateMins < 60 || $aggregateMins % 60 !== 0) && $aggregateMins !== 30) {
             abort(400, 'Can only aggregate by full hours');
         }
 
