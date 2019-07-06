@@ -32,31 +32,45 @@ class XFeedCheck extends Command
         $ave = $totalKills / $numPlayers;
         $aveCap = $ave * 4.5;
 
-        $plNameMap = [];
+        $plMap = [];
         $db->table('cr_player_ids')->select('id', 'data')
-            ->whereIn('id', $rows->pluck('player_id'))->get()->each(function ($row) use (&$plNameMap) {
+            ->whereIn('id', $rows->pluck('player_id'))->get()->each(function ($row) use (&$plMap) {
                 $data = json_decode($row->data);
-                $plNameMap[$row->id] = sprintf('%s (plid %d created %s)', $data->name, $row->id, $data->startTime);
+                $plMap[$row->id] = [
+                    'name' => sprintf('%s (plid %d created %s)', $data->name, $row->id, $data->startTime),
+                    'totalKills' => $data->fame
+                ];
             });
 
 
-        $rows->each(function ($row) use ($percentile, $aveCap, $numPlayers, &$plNameMap) {
+        $rows->each(function ($row) use ($percentile, $aveCap, $numPlayers, &$plMap) {
             $rowKills = $row->kills;
-            $id = sprintf('%s: %d kills last hour', $plNameMap[$row->player_id], $rowKills);
+
             if ($rowKills < 20) {
                 return;
             }
+
+            $id = sprintf('%s: %d kills last hour', $plMap[$row->player_id]['name'], $rowKills);
+            $previousPlayerKills = $plMap[$row->player_id]['totalKills'] - $rowKills;
+            if ($previousPlayerKills < 0) {
+                throw new \LogicException('Player had previously negative kills: ' . $id);
+            }
+            $killsPlausibleForPlayer = $previousPlayerKills > 100 * $rowKills;
+
             if ($rowKills > 200) {
                 $this->line($id . ' - over 200');
             }
             if ($rowKills > $percentile) {
                 $this->line($id . ' - almost all total kills alone');
             }
-            if ($rowKills > $aveCap) {
+            if ($rowKills > $aveCap && !$killsPlausibleForPlayer) {
                 $this->line($id . ' - way above average');
             }
             if ($numPlayers < 10 && $rowKills > 65) {
                 $this->line($id . ' - a lot of kills for few ppl online');
+            }
+            if ($previousPlayerKills < 10 * $rowKills) {
+                $this->line($id . ' - not in proportion with previous ' . $previousPlayerKills . ' total kills');
             }
         });
 
