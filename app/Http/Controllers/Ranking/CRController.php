@@ -235,6 +235,6 @@ class CRController extends Controller
 
         $format = 'Y-m-d H:i';
 
-        return redirect('https://beta.vi0lation.de/ranking/chromerivals/topkillsinterval?'.http_build_query(['from' => Carbon::parse($latest)->format($format), 'to' => Carbon::parse($closest24hAgo)->format($format)]));
+        return redirect('https://beta.vi0lation.de/ranking/chromerivals/topkillsinterval?'.http_build_query(['from' => Carbon::parse($latest)->format($format), 'to' => Carbon::parse($closest24hAgo)->format($format)], null, '&', PHP_QUERY_RFC3986));
     }
 }
