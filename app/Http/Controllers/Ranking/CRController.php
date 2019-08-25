@@ -226,4 +226,15 @@ class CRController extends Controller
 
         return $this->brigLogoResp($binaryContent);
     }
+
+    public function gotoLast24h()
+    {
+        $tbl = \DB::connection('chromerivals')->table('cr_crawl_dates');
+        $latest = $tbl->select(['timestamp'])->orderByDesc('timestamp')->limit(1)->first()->timestamp;
+        $closest24hAgo = $tbl->select(['timestamp'])->where('timestamp','<=', Carbon::now()->subHours(24))->orderByDesc('timestamp')->limit(1)->first()->timestamp;
+
+        $format = 'Y-m-d H:i';
+
+        return redirect('https://beta.vi0lation.de/ranking/chromerivals/topkillsinterval?'.http_build_query(['from' => Carbon::parse($latest)->format($format), 'to' => Carbon::parse($closest24hAgo)->format($format)]));
+    }
 }

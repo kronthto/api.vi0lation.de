@@ -15,4 +15,5 @@ Route::get('/', 'IndexController@index');
 
 Route::group(['prefix' => 'chromerivals'], function () {
     Route::view('/charts/fame-activity', 'cr_charts.fameactivity'); // TODO: Cache-Control? -> middleware
+    Route::get('/goto/killsLast24', 'Ranking\CRController@gotoLast24h');
 });
