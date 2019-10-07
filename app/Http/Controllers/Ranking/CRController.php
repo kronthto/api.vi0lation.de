@@ -136,6 +136,39 @@ class CRController extends Controller
         return $response;
     }
 
+    public function brigadeFame(Request $request)
+    {
+        $name = (string) $request->get('name');
+        if (!$name) {
+            return response('name is required', Response::HTTP_BAD_REQUEST);
+        }
+
+        $from = $request->has('from') ? Carbon::parse($request->get('from')) : null;
+        $to = $request->has('to') ? Carbon::parse($request->get('to')) : null;
+
+        $data = $this->service->getBrigadeFameHistory($name, $from, $to);
+
+        if ($data->isEmpty()) {
+            return response()->json('no data found', Response::HTTP_NOT_FOUND);
+        }
+
+        $dataFormatted = $data->map(function ($fameRow): array {
+            return [
+                'fame' => (int) $fameRow->fame,
+                'mfame' => (int) $fameRow->mfame,
+                'timestamp' => (new Carbon($fameRow->timestamp))->format('c'),
+            ];
+        });
+
+        $sample = $data->last();
+
+        $response = response(['name' => $sample->name, 'data' => $dataFormatted]);
+        $response->setPublic();
+        $response->setMaxAge($to ? 86400 : 600);
+
+        return $response;
+    }
+
     public function onlinePlayers()
     {
         $data = $this->service->getOnlinePlayersHistory();

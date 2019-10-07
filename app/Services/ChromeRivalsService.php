@@ -65,6 +65,34 @@ class ChromeRivalsService
         return $res;
     }
 
+    /**
+     * Gets the highscore/fame history data for a given player name.
+     *
+     * @param string $name
+     * @param Carbon|null $from
+     * @param Carbon|null $to
+     *
+     * @return Collection
+     */
+    public function getBrigadeFameHistory(string $name, Carbon $from = null, Carbon $to = null): Collection
+    {
+        $table = $this->connection->table('cr_brigranking_crawl');
+
+        $q = $table
+            ->select(['name', 'fame', 'mfame', 'timestamp'])
+            ->where('name', $name)
+            ->orderBy('timestamp', 'asc');
+
+        if ($from) {
+            $q->where('timestamp', '>=', $from->startOfMinute());
+        }
+        if ($to) {
+            $q->where('timestamp', '<=', $to->endOfMinute());
+        }
+
+        return $q->get();
+    }
+
     public function getTopKillsBetween(Carbon $from, Carbon $to, &$fromToUsed = null): Collection
     {
         $fromStart = $from->second(0);

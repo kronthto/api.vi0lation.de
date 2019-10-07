@@ -8,6 +8,7 @@ CORS enabled.
 
 * `/api/ranking/highscore`
 * `/api/chromerivals/playerfame?name=charname`
+* `/api/chromerivals/brigfame?name=brigname`
 * `/api/chromerivals/onlinecount`
 * `/api/chromerivals/ranking-timestamps`
 * `/api/chromerivals/topkillsinterval?from=date&to=date`
