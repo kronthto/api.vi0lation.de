@@ -47,7 +47,7 @@ class ChromeRivalsService
         $table = $this->connection->table('cr_player_ranking_history');
 
         $q = $table
-            ->select(['fame', 'timestamp' => new Expression('UNIX_TIMESTAMP(`timestamp`)')])
+            ->select(['fame', new Expression('UNIX_TIMESTAMP(`timestamp`) AS timestamp')])
             ->where('player_id', $playerIdQuery->first()->id)
             ->orderBy('timestamp', 'asc');
 
