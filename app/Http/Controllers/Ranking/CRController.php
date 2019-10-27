@@ -123,7 +123,7 @@ class CRController extends Controller
         $dataFormatted = $data->map(function ($fameRow): array {
             return [
                 'fame' => (int) $fameRow->fame,
-                'timestamp' => (new Carbon($fameRow->timestamp))->format('c'),
+                'timestamp' => (Carbon::createFromTimestampUTC($fameRow->timestamp))->format('c'),
             ];
         });
 
