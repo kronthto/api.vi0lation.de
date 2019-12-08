@@ -420,12 +420,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kronthto/ao-archive.git",
-                "reference": "d4f3349e8fc23165114c83ca33e5bd3948462bee"
+                "reference": "dcdad493a47874df62af8b4ba48fa1a1866ffb86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kronthto/ao-archive/zipball/d4f3349e8fc23165114c83ca33e5bd3948462bee",
-                "reference": "d4f3349e8fc23165114c83ca33e5bd3948462bee",
+                "url": "https://api.github.com/repos/kronthto/ao-archive/zipball/dcdad493a47874df62af8b4ba48fa1a1866ffb86",
+                "reference": "dcdad493a47874df62af8b4ba48fa1a1866ffb86",
                 "shasum": ""
             },
             "require": {
@@ -451,7 +451,7 @@
                     "email": "kronthto@gmail.com"
                 }
             ],
-            "time": "2019-05-25T11:56:27+00:00"
+            "time": "2019-12-08T14:43:26+00:00"
         },
         {
             "name": "kronthto/aceonline-assetencrypt",
