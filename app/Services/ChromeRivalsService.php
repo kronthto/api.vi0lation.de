@@ -361,10 +361,12 @@ class ChromeRivalsService
         return \Cache::remember('cr_OnlinePlayersHistory', 5, function (): array {
             $table = $this->connection->table('cr_online_crawl');
 
+            // Can the query group by timestamp and retrieve both rows as cols already?
             $data = $table
                 ->select()
                 ->orderBy('timestamp', 'asc')
-                ->get();
+                ->where('timestamp', '>=', Carbon::now()->subDays(205)->startOfDay())
+                ->cursor();
 
             $clustered = [];
 
@@ -373,11 +375,13 @@ class ChromeRivalsService
                 $clustered[$ts->getTimestamp()][] = $datum;
             }
 
-            return array_filter(array_map(function ($cluster, $ts): ?array {
-                if (\count($cluster) !== 2) {
-                    return null;
-                }
+            $result = [];
 
+            foreach ($clustered as $ts => $cluster) {
+                if (\count($cluster) !== 2) {
+                    continue;
+                }
+                unset($bcu, $ani);
                 foreach ($cluster as $item) {
                     switch ($item->nation) {
                         case 'BCU':
@@ -388,18 +392,18 @@ class ChromeRivalsService
                             break;
                     }
                 }
-
                 if (!isset($bcu, $ani)) {
-                    return null;
+                    continue;
                 }
-
-                return [
+                $result[] = [
                     'timestamp' => Carbon::createFromTimestamp($ts)->format('c'),
                     'bcu' => $bcu->online,
                     'ani' => $ani->online,
                     'total' => $ani->online + $bcu->online,
                 ];
-            }, $clustered, array_keys($clustered)));
+            }
+
+            return $result;
         });
     }
 
