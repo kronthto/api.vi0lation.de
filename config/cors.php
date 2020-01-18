@@ -13,7 +13,7 @@ return [
     'supportsCredentials' => false,
     'allowedOrigins' => ['*'],
     'allowedHeaders' => ['*'],
-    'allowedMethods' => ['GET'],
+    'allowedMethods' => ['GET', 'PUT', 'POST', 'DELETE'],
     'exposedHeaders' => [],
     'maxAge' => 86400,
 ];
