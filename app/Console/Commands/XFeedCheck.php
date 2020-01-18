@@ -46,7 +46,7 @@ class XFeedCheck extends Command
         $rows->each(function ($row) use ($percentile, $aveCap, $numPlayers, &$plMap) {
             $rowKills = $row->kills;
 
-            if ($rowKills < 20) {
+            if ($rowKills < 29) {
                 return;
             }
 
@@ -55,10 +55,10 @@ class XFeedCheck extends Command
             if ($previousPlayerKills < 0) {
                 throw new \LogicException('Player had previously negative kills: ' . $id);
             }
-            $killsPlausibleForPlayer = $previousPlayerKills > 100 * $rowKills;
+            $killsPlausibleForPlayer = $previousPlayerKills > 70 * $rowKills;
 
-            if ($rowKills > 200) {
-                $this->line($id . ' - over 200');
+            if ($rowKills > 180) {
+                $this->line($id . ' - over 180');
             }
             if ($rowKills > $percentile) {
                 $this->line($id . ' - almost all total kills alone');
