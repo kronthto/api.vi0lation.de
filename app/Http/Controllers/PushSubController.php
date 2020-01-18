@@ -61,14 +61,17 @@ class PushSubController extends Controller
             return $existing;
         }
 
-        return response((new PushSub([
+        $newmodel = new PushSub([
             'id' => $id,
             'endpoint' => $payload['endpoint'],
             'key' => $payload['key'],
             'token' => $payload['token'],
             'origin' => $request->header('Origin'),
             'config' => ['crevents' => (array) $payload['events']]
-        ]))->save(), 201);
+        ]);
+        $newmodel->save();
+
+        return response($newmodel, 201);
     }
 
     // Handle DELETE calls
