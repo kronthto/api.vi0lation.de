@@ -19,6 +19,9 @@ Route::group(['prefix' => 'ranking'], function () {
     Route::get('/highscore', 'Ranking\HighscoreController@get');
 });
 
+Route::match(['PUT', 'POST'], 'pushsub', 'PushSubController@subscribe');
+Route::delete('pushsub', 'PushSubController@unsubscribe');
+
 Route::group(['prefix' => 'chromerivals'], function () {
     Route::get('/playerfame', 'Ranking\CRController@playerFame');
     Route::get('/brigfame', 'Ranking\CRController@brigadeFame');
