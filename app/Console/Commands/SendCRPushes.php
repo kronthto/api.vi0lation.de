@@ -31,7 +31,8 @@ class SendCRPushes extends Command
     protected function handleSp(int $mapIndex)
     {
         PushSub::query()->each(function(PushSub $pushSub) use ($mapIndex) {
-            if (!in_array('sp', $pushSub->config->crevents, true)) {
+            // TODO: Error handling for json access?
+            if (!in_array('sp', $pushSub->config['crevents'], true)) {
                 return;
             }
             $this->pushSrv->queueMessage($pushSub, $mapIndex);
