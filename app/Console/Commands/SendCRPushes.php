@@ -25,18 +25,48 @@ class SendCRPushes extends Command
             case 2:
                 $this->handleSP($this->argument('map'));
                 break;
+            case 3:
+                $this->handleOp($this->argument('map'));
+                break;
+            case 4:
+                $this->handleMs($this->argument('map'));
+                break;
+        }
+    }
+
+    protected function mapMap(int $mapIdx): string
+    {
+        // TODO
+        return $mapIdx;
+    }
+
+    protected function eachSubs(string $config, string $payload)
+    {
+        PushSub::query()->each(function(PushSub $pushSub) use ($payload, $config) {
+            // TODO: Error handling for json access?
+            if (!in_array($config, $pushSub->config['crevents'], true)) {
+                return;
+            }
+            $this->pushSrv->queueMessage($pushSub, $payload);
+        });
+        $res = $this->pushSrv->sendQueued();
+        if ($res) {
+            iterator_to_array($res);
         }
     }
 
     protected function handleSp(int $mapIndex)
     {
-        PushSub::query()->each(function(PushSub $pushSub) use ($mapIndex) {
-            // TODO: Error handling for json access?
-            if (!in_array('sp', $pushSub->config['crevents'], true)) {
-                return;
-            }
-            $this->pushSrv->queueMessage($pushSub, 'SP @ '.$mapIndex);
-        });
-        iterator_to_array($this->pushSrv->sendQueued());
+        $this->eachSubs('sp', 'SP in '.$this->mapMap($mapIndex));
+    }
+
+    protected function handleOp(int $mapIndex)
+    {
+        $this->eachSubs('op', 'OP soon in '.$this->mapMap($mapIndex));
+    }
+
+    protected function handleMs(int $mapIndex)
+    {
+        $this->eachSubs('ms', 'MS soon in '.$this->mapMap($mapIndex));
     }
 }
