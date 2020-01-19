@@ -35,7 +35,7 @@ class SendCRPushes extends Command
             if (!in_array('sp', $pushSub->config['crevents'], true)) {
                 return;
             }
-            $this->pushSrv->queueMessage($pushSub, $mapIndex);
+            $this->pushSrv->queueMessage($pushSub, 'SP @ '.$mapIndex);
         });
         iterator_to_array($this->pushSrv->sendQueued());
     }
