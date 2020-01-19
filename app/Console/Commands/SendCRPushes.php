@@ -37,6 +37,6 @@ class SendCRPushes extends Command
             }
             $this->pushSrv->queueMessage($pushSub, $mapIndex);
         });
-        iterator_to_array($this->pushSrv->flush());
+        iterator_to_array($this->pushSrv->sendQueued());
     }
 }
