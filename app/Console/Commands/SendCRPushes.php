@@ -21,7 +21,7 @@ class SendCRPushes extends Command
         $this->pushSrv = app(PushSendService::class);
 
         foreach (file(__DIR__.'/mapinfo.txt') as $map) {
-            $splitMap = explode('\t', $map);
+            $splitMap = explode("\t", $map);
             $this->maps[(int) $splitMap[0]] = $splitMap[1];
         }
     }
