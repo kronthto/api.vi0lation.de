@@ -76,7 +76,7 @@ class PushSendService
     public function sendQueued()
     {
         if ($this->pushObject) {
-            $this->pushObject->flush();
+            return $this->pushObject->flush();
         }
     }
 }
