@@ -1,0 +1,277 @@
+1001	\eConference Room\e
+1002	\cConference Room\c
+2001	\eBygeniou City\e
+2002	\cArlington City\c
+2003	\yGlobal Market\y
+2004	\oAkron\o
+2005	\oRakion\o
+2006	\oCoronado\o
+2007	\oNGC Millitary Base\o
+2008	\eOld Bygeniou City\e
+2009	\cOld Arlington City\c
+3002	\eStones Ruin\e
+3003	\eTylent Jungle\e
+3004	\eBlackburn Site\e
+3005	\eZaylope Beach\e
+3006	\eStarlite Valley\e
+3007	\cHerremeze Relic Site\c
+3008	\yBark City\y
+3009	\cPlain of Doleful Melody\c
+3011	\oStarlite Valley (Mission)\o
+3013	\cDesert of Ardor\c
+3014	\cEdmont Valley\c
+3015	\cGjert Road\c
+3016	\cThe Violence Blizzard\c
+3017	\yLumein Volcano\y
+3018	\cReynard Beach\c
+3019	\eRock's Nest Bottom\e
+3020	\cRock's Nest Bottom\c
+3021	\cPandea A Point\c
+3022	\cPortsmouth Canyon\c
+3023	\ySunshine Born\y
+3024	\ePandea B Point\e
+3025	\eDaisy Riverhead\e
+3028	\eOrina Peninsula\e
+3029	\eKahlua Beach\e
+3031	\cAtus Beach\c
+3034	\yIsland's Dream\y
+3035	\eIsland's Dream\e
+3036	\cIsland's Dream\c
+3041	\yRobenia City\y
+3042	\yBarren Land\y
+3043	\yVatallus Laboratory\y
+3044	\yRobenia City Orbit\y
+3045	\cSlope Port\c
+3060	\yHornian King's Habitat\y
+3063	\eRedline\e
+3064	\eSunken City\e
+3067	\eBach Mountain Chain\e
+3068	\eDen of Site - B\e
+3069	\cDen of Site - A\c
+3080	\eMaelstrom Desert\e
+3081	\eInfected Area\e
+3082	\yDestroyed Starlite Valley\y
+3083	\yCrystal Area\y
+3084	\cMaelstrom Desert\c
+3085	\cInfected Area\c
+3086	\yJ-ARK Aviation Shed\y
+3087	\yJ-ARK Engine Room\y
+3088	\eDragons Lair\e
+3089	\cDragons Lair\c
+3090	\yMaelstrom Desert (PVP)\y
+3091	\yInfected Area (PVP)\y
+3092	\yRuined City (PVP)\y
+3301	\oStones Ruin (Mission)\o
+3302	\oStones Ruin(Mission)\o
+3303	\oStones Ruin(Mission)\o
+3305	\oStones Ruin (Mission)\o
+3306	\oTylent Jungle (Mission)\o
+3307	\oTylent Jungle (Mission)\o
+3308	\oTylent Jungle (Mission)\o
+3309	\oTylent Jungle (Mission)\o
+3310	\oBlackburn Site (Mission)\o
+3311	\oBlackburn Site (Mission)\o
+3312	\oBlackburn Site (Mission)\o
+3313	\oBlackburn Site (Mission)\o
+3314	\oBlackburn Site (Mission)\o
+3316	\oReynard Beach (Mission)\o
+3317	\oReynard Beach (Mission)\o
+3321	\oStarlite Valley (Mission)\o
+3322	\oStarlite Valley (Mission)\o
+3323	\oStarlite Valley (Mission)\o
+3326	\oHerremeze Relic Site(Mission)\o
+3331	\oBark City (Mission)\o
+3332	\oBark City (Mission)\o
+3333	\oBark City (Mission)\o
+3334	\oBark City (Mission)\o
+3335	\oBark City (Mission)\o
+3336	\oPlain of Doleful Melody (Mission)\o
+3337	\oPlain of Doleful Melody (Mission)\o
+3338	\oBark City (Mission)\o
+3341	\oDesert of Ardor (Mission)\o
+3342	\oDesert of Ardor (Mission)\o
+3343	\oDesert of Ardor (Mission)\o
+3346	\oEdmont Valley (Mission)\o
+3347	\oEdmont Valley (Mission)\o
+3351	\oPetra's Cave (Mission)\o
+3352	\oPetra's Cave (Mission)\o
+3353	\oPetra's Cave (Mission)\o
+3361	\oBach Mountain Chain (Mission)\o
+3362	\oBach Mountain Chain (Mission)\o
+3363	\rBach Mountain Chain (Mission)\r
+3366	\oChaos (Mission)\o
+3367	\oChaos (Mission)\o
+3368	\oChaos (Mission)\o
+3371	\oRedline (Mission)\o
+3372	\oRedline (Mission)\o
+3376	\oHornian King's Habitat (Mission)\o
+3377	\oHornian King Habitat BCU (Mission)\o
+3378	\oHornian King Habitat ANI (Mission)\o
+3379	\oHornian King's Habitat (Mission)\o
+3381	\oZaylope Beach (Mission)\o
+3386	\oIsland's Dream (Mission)\o
+3387	\oIsland's Dream (Mission)\o
+3388	\oIsland's Dream (Mission)\o
+3389	\oIsland's Dream (Mission)\o
+3390	\oKahlua Beach (Mission)\o
+3391	\oNubarke Cave (Mission)\o
+3392	\oOrina Peninsula (Mission)\o
+3393	\oGjert Road (Mission)\o
+3394	\oAtus Beach (Mission)\o
+3395	\oDaisy Riverhead (Mission)\o
+3396	\oSlope Port (Mission)\o
+3397	\oPortsmouth Canyon (Mission)\o
+3401	\oFantasy Flow (Mission)\o
+3402	\oFantasy Flow (Mission)\o
+3406	\oLumein Volcano (Mission)\o
+3407	\oLumein Volcano (Mission)\o
+3408	\oLumein Volcano (Mission)\o
+3411	\oKahlua Beach (Mission)\o
+3412	\oNubarke Cave (Mission)\o
+3413	\oOrina Peninsula (Mission)\o
+3414	\oGjert Road (Mission)\o
+3415	\oAtus Beach (Mission)\o
+3416	\oDaisy Riverhead (Mission)\o
+3417	\oSlope Port (Mission)\o
+3418	\oPortsmouth Canyon (Mission)\o
+3421	\oSunken City (Mission)\o
+3426	\oRock's Nest Middle BCU (Mission)\o
+3431	\oRock's Nest Middle ANI (Mission)\o
+3436	\oRock's Nest Top (Mission)\o
+3437	\oRock's Nest Top (Mission)\o
+3441	\oThe Violence Blizzard (Mission)\o
+3451	\oOrina Peninsula (Mission)\o
+3452	\oDaisy Riverhead (Mission)\o
+3453	\oSlope Port (Mission)\o
+3454	\oPortsmouth Canyon (Mission)\o
+3455	\oSunshine Born (Mission)\o
+3999	Test Map
+4001	\oPetra's Cave\o
+4002	\oBark Undercity\o
+4003	\oBark Undercity\o
+4006	\cCrystal Cave\c
+4007	\yG-ARK Engine Room\y
+4008	\eG-ARK Engine Room\e
+4009	\cG-ARK Engine Room\c
+4010	\eNubarke Cave\e
+4100	\yAsh Lane\y
+4101	\yFloating Lake\y
+4180	\gO-Map\g
+4181	\gX-Map\g
+4190	\gDecca Stadium\g
+4191	\rDecca Stadium\r
+4300	\yLost Oasis\y
+4301	\yNGC Marine Laboratory\y
+4302	\yNGC Secret Base\y
+4303	\yNGC Warship Hangar\y
+4304	\yHazle Research Center\y
+4305	\yViolet Cave\y
+4306	\yMirny Stope\y
+4307	\yEldorado Metropolis\y
+4308	test map
+4400	\yHidden Place\y
+4401	\yDistorted Place\y
+4402	\yHidden Area\y
+4403	\yDistorted Area\y
+4404	\yMap123\y
+4405	\yMap123\y
+5000	\yEvent Map\y
+5001	\mFree for All-2\m
+6001	\yChaos\y
+6002	\yDimension Corridor\y
+6003	\yFantasy Flow\y
+6004	\yG-ARK\y
+6005	\yATUM-1\y
+6006	\yATUM-2\y
+6007	\eRock's Nest Middle\e
+6008	\cRock's Nest Middle\c
+6009	\yRock's Nest Top\y
+6010	\eChaos\e
+6011	\cChaos\c
+6012	\eDimension Corridor\e
+6013	\eFantasy Flow\e
+6014	\cDimension Corridor\c
+6015	\cFantasy Flow\c
+6016	\yBark City Skies\y
+6017	\yMesos Floor\y
+6018	\yCastle Corona\y
+7001	\eCastor\e
+7002	\cDenebola\c
+7003	\ePolaris\e
+7004	\cAlphard\c
+7005	\yAlioth\y
+7006	\yPherkad\y
+7007	\yEopi\y
+7008	\ySector 71 Operation\y
+7009	\yAssaulted Hangar\y
+8001	Tutorial
+8500	\yRouthier\y
+9000	\yRouthier\y
+9001	\mPine Oil Heaven\m
+9002	\yWatermelon Island\y
+9003	\gMS Event Map\g
+9005	\yOrigin Amaryllis Habitat\y
+9006	\eX-Mas Event Map\e
+9007	\cX-Mas Event Map\c
+9009	\gX-Mas Event Map #1-2\g
+9010	\gX-Mas Event Map #2-2\g
+9011	\ePenguin City\e
+9012	\cPenguin City\c
+9013	\eBurning Halloween Castle\e
+9014	\cBurning Halloween Castle\c
+9015	\mSnowbound Sanctuary\m
+9016	\mSnowbound Sanctuary\m
+9017	\mFree for All-3\m
+9018	\gEvent Map #2\g
+9019	\gEvent Map #3\g
+9020	\gBark City PVP\g
+9021	\eMemories of the Past\e
+9022	\cMemories of the Past\c
+9023	\eHaunted Park\e
+9024	\cHaunted Park\c
+9025	\mUltra Block Village\m
+9026	\cUltra Block Village\c
+9027	\gTunnel 1\g
+9028	\gTunnel 2\g
+9029	\gTunnel 3\g
+9030	\gTunnel 4\g
+9031	\gTunnel 5\g
+9032	\gTunnel 6\g
+9033	\gDecca Stadium\g
+9034	\eIce Chrome Citadel\e
+9035	\cIce Chrome Citadel\c
+9101	Armageddon
+9102	Ragnarok
+9113	\eBurning Halloween Castle [Safe]\e
+9114	\cBurning Halloween Castle [Safe]\c
+9115	\ePenguin City [Safe]\e
+9116	\cPenguin City [Safe]\c
+9200	The Hydrogen Driver
+9201	Kreacian Holy Lands
+9202	Survival Abyss
+9300	\mLast Nation Standing\m
+9301	\cX-Nation War\c
+9302	\eX-Nation War\e
+9303	\mFind the Exit\m
+9304	\mLast Man Standing\m
+9305	\mFree for All-1\m
+9306	\mNPC War\m
+9307	\mCR Testmap\m
+9312	\mNPC Event\m
+9400	\mFree for All - 5\m
+9401	\mFree for All - 6\m
+9402	\mFree for All - 7\m
+9403	\mFree for All - ID\m
+9404	\mFree for All - IA\m
+9405	\mFree for All - BC\m
+9406	\mFree for All - BL\m
+9407	\mOmega Area\m
+9408	\mFree for All - Stones\m
+9409	\mFree for All - SSB\m
+9410	\mFree for All - Robenia\m
+9411	\mFree for All - Eldorado\m
+9412	\mFree for All - Sector 71\m
+9500	\rPVP Tournament\r
+9501	\rWaiting Room\r
+9901	\gBMC Event Map 2\g
+10000	\mFree for All-4\m

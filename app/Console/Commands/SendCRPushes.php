@@ -13,10 +13,17 @@ class SendCRPushes extends Command
     /** @var PushSendService */
     protected $pushSrv;
 
+    protected $maps = [];
+
     public function __construct()
     {
         parent::__construct();
         $this->pushSrv = app(PushSendService::class);
+
+        foreach (file(__DIR__.'/mapinfo.txt') as $map) {
+            $splitMap = explode('\t', $map);
+            $this->maps[(int) $splitMap[0]] = $splitMap[1];
+        }
     }
 
     public function handle()
@@ -36,8 +43,7 @@ class SendCRPushes extends Command
 
     protected function mapMap(int $mapIdx): string
     {
-        // TODO
-        return $mapIdx;
+        return $this->maps[$mapIdx] ?? $mapIdx;
     }
 
     protected function eachSubs(string $config, string $payload)
