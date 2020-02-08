@@ -29,7 +29,6 @@ Route::group(['prefix' => 'chromerivals'], function () {
     Route::get('/ranking-timestamps', 'Ranking\CRController@rankingDates');
     Route::get('/topkillsinterval', 'Ranking\CRController@topKillsBetween');
     Route::get('/brigkillsinterval', 'Ranking\CRController@brigKillsBetween');
-    Route::get('/brigmark', 'Ranking\CRController@brigLogo');
     Route::get('/fame-activity', 'Ranking\CRController@aggregatedFameHistory');
     Route::get('/omi', ['uses' => 'Ace\OmiQueryController@query', 'game' => 'cr']);
 });

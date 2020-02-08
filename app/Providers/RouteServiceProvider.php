@@ -69,5 +69,8 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+        Route::middleware('api_nothrottle')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api_nothrottle.php'));
     }
 }
