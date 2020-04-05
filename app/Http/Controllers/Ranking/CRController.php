@@ -252,7 +252,15 @@ class CRController extends Controller
 
             $binaryContent = $im->getImageBlob();
             if (!$binaryContent) {
-                throw new \RuntimeException('Empty PNG image blob returned for '.$brigName);
+                $im->setImageFormat('bmp');
+                $bmpConvert = $im->getImageBlob();
+                $im = new \Imagick();
+                $im->readImageBlob($bmpConvert);
+                $im->setImageFormat('png');
+                $binaryContent = $im->getImageBlob();
+                if (!$binaryContent) {
+                    throw new \RuntimeException('Empty PNG image blob returned for ' . $brigName);
+                }
             }
             return $binaryContent;
         });
