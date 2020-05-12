@@ -30,7 +30,7 @@
         $('#form').submit(e => {
             e.preventDefault();
             var brigName = $('#name').val();
-            fetch('http://cr-api.vi0.de/q/brigActivity?from=' + encodeURIComponent($('#from').val()) + '&name=' + encodeURIComponent(brigName)).then(function (res) {
+            fetch('https://cr-api.vi0.de/q/brigActivity?from=' + encodeURIComponent($('#from').val()) + '&name=' + encodeURIComponent(brigName)).then(function (res) {
                 if (!res.ok) {
                     alert("Could not load Brig data");
                     throw Error("Could not load Brig data");
