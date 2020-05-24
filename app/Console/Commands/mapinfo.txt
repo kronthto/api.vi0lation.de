@@ -240,6 +240,11 @@
 9033	\gDecca Stadium\g
 9034	\eIce Chrome Citadel\e
 9035	\cIce Chrome Citadel\c
+9037	\eFrostbite City\e
+9038	\cFrostbite City\c
+9039	\eEasterror\e
+9040	\dEasterror\d
+9041	\cEasterror\c
 9101	Armageddon
 9102	Ragnarok
 9113	\eBurning Halloween Castle [Safe]\e

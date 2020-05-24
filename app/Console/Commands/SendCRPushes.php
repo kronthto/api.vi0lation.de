@@ -38,6 +38,9 @@ class SendCRPushes extends Command
             case 4:
                 $this->handleMs($this->argument('map'));
                 break;
+            case 27:
+                $this->handleNke($this->argument('map'));
+                break;
         }
     }
 
@@ -74,5 +77,10 @@ class SendCRPushes extends Command
     protected function handleMs(int $mapIndex)
     {
         $this->eachSubs('ms', 'MS soon in '.$this->mapMap($mapIndex));
+    }
+
+    protected function handleNke(int $mapIndex)
+    {
+        $this->eachSubs('nke', 'NKE in '.$this->mapMap($mapIndex));
     }
 }
