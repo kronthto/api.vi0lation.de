@@ -13,19 +13,18 @@ class CmsController extends Controller
                     'about' => '# About
 
 ## Vi0
-Vi0lation is a German multigaming clan/guild/brigade that formed on AirRivals DE (Prokyon, BCU), and since then continued playing various other MMOs & MOBAs together.
+"Vi0lation" is a German multigaming guild that formed on AirRivals DE (Prokyon, BCU) and is since playing many different online games together.
 
 ## TeamSpeak
 Address: [vi0lation.de](ts3server://vi0lation.de)
 
 ## Website
-The main purpose of this website is the [advanced AirRivals DE ranking](/ranking), providing near complete recordings of everydays ladders aswell as tools to analyze and compare them.
+The main purpose of this website was the advanced AirRivals DE ranking, providing near complete recordings of everydays ladders aswell as tools to analyze and compare them. 
+Tools for other servers and general AO helpers have also been added.
 
-First launched in 2012, it has seen quite some changes and relaunches. The first version being a bunch of PHP Scripts somehow fitting together it has evolved into an React SPA/PWA. 
+First launched in 2012, it has seen quite some changes and relaunches.  
 The current source code is available on GitHub, seperated into [Frontend](https://github.com/kronthto/vi0lation.de "vi0lation.de Frontend Source-Code") and [API-Backend](https://github.com/kronthto/api.vi0lation.de "Ranking-Data api.vi0lation.de Source-Code").
-
-## Videos
-[<img src="//cdn.vi0lation.de/img/yt.svg" width="48" height="48" alt="YouTube" />](https://www.youtube.com/watch?v=Act1YKmPt2w) [<img src="//cdn.vi0lation.de/img/yt.svg" width="48" height="48" alt="YouTube" />](https://www.youtube.com/watch?v=OBiN8E8j7AM)'
+'
                 ])->setPublic()->setMaxAge(7200);
             case 'arranking':
                 return response()->json([
