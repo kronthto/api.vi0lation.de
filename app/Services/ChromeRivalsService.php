@@ -366,7 +366,7 @@ class ChromeRivalsService
                 ->select()
                 ->orderBy('timestamp', 'asc')
                 ->where('timestamp', '>=', Carbon::now()->subDays(205)->startOfDay())
-                ->where('timestamp', '<=', Carbon::now()->subHours(2))
+               // ->where('timestamp', '<=', Carbon::now()->subHours(2))
                 ->cursor();
 
             $clustered = [];
