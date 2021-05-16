@@ -21,7 +21,7 @@ class CRController extends Controller
 
     public function rankingDates()
     {
-        $timestamps = \Cache::remember('cr_playerfame_timestamps', 2, function () : Collection {
+        $timestamps = \Cache::remember('cr_playerfame_timestamps', 120, function () : Collection {
             $tbl = \DB::connection('chromerivals')->table('cr_crawl_dates');
             return $tbl->select(['timestamp'])->distinct()->pluck('timestamp')->map(function ($ts): \DateTime {
                 return Carbon::parse($ts)->second(0);
@@ -240,7 +240,7 @@ class CRController extends Controller
             abort(400, 'Brig name required');
         }
 
-        $binaryContent = \Cache::remember(sprintf('CR_Briglogo_%s', sha1($brigName)), 180, function() use ($brigName) {
+        $binaryContent = \Cache::remember(sprintf('CR_Briglogo_%s', sha1($brigName)), 180*60, function() use ($brigName) {
             $data = $this->service->fetchBriglogo($brigName);
             if (!$data) {
                 abort(404, 'Brigade not found or no logo');

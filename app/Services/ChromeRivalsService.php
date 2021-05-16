@@ -107,7 +107,7 @@ class ChromeRivalsService
 
         return \Cache::remember(
             'crtopkills_' . $fromToUsed,
-            1000,
+            60000,
             function () use ($from, $to, $fromStart, $toStart): Collection {
                 $fromEnd = $from->copy()->addMinute();
                 $toEnd = $to->copy()->addMinute();
@@ -168,7 +168,7 @@ class ChromeRivalsService
 
         return \Cache::remember(
             'crtopkillsbrig_' . $fromToUsed,
-            1000,
+            60000,
             function () use ($from, $to, $fromStart, $toStart): Collection {
                 $fromEnd = $from->copy()->addMinute();
                 $toEnd = $to->copy()->addMinute();
@@ -261,7 +261,7 @@ class ChromeRivalsService
             return $this->getAggrFameHistory($backDays, $aggregateMins);
         }
 
-        return \Cache::remember($cacheKey, 20, function () use ($backDays, $aggregateMins): array {
+        return \Cache::remember($cacheKey, 1200, function () use ($backDays, $aggregateMins): array {
             return $this->getAggrFameHistory($backDays, $aggregateMins);
         });
     }
@@ -358,7 +358,7 @@ class ChromeRivalsService
      */
     public function getOnlinePlayersHistory(): array
     {
-        return \Cache::remember('cr_OnlinePlayersHistory', 5, function (): array {
+        return \Cache::remember('cr_OnlinePlayersHistory', 300, function (): array {
             $table = $this->connection->table('cr_online_crawl');
 
             // Can the query group by timestamp and retrieve both rows as cols already?

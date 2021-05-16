@@ -10,11 +10,12 @@ return [
      | to accept any value.
      |
      */
-    'supportsCredentials' => false,
-    'allowedOrigins' => ['*'],
-    'allowedHeaders' => ['*'],
-    'allowedMethods' => ['GET', 'PUT', 'POST', 'DELETE'],
-    'exposedHeaders' => [],
-    'maxAge' => 86400,
+    'paths' => ['api/*'],
+    'supports_credentials' => false,
+    'allowed_origins' => ['*'],
+    'allowed_headers' => ['*'],
+    'allowed_methods' => ['GET', 'PUT', 'POST', 'DELETE'],
+    'exposed_headers' => [],
+    'max_age' => 86400,
 ];
 

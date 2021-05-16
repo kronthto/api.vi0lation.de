@@ -37,21 +37,19 @@ class PushSendService
      *
      * @param PushSub $subscription
      * @param string $payload
-     * @param bool|true $flush
      *
      * @return array|bool
      */
-    public function sendMessageDirectly(PushSub $subscription, string $payload, bool $flush = true)
+    public function sendMessageDirectly(PushSub $subscription, string $payload)
     {
         $webpush = $this->getWebpush();
 
-        return $webpush->sendNotification(
+        return $webpush->sendOneNotification(
             Subscription::create([
                 'endpoint' => $subscription->endpoint,
                 'keys' => ['p256dh' => $subscription->key, 'auth' => $subscription->token]
             ]),
-            $payload,
-            $flush
+            $payload
         );
     }
 
@@ -65,7 +63,15 @@ class PushSendService
      */
     public function queueMessage(PushSub $subscription, string $payload)
     {
-        return $this->sendMessageDirectly($subscription, $payload, false);
+	$webpush = $this->getWebpush();
+
+        return $webpush->queueNotification(
+            Subscription::create([
+                'endpoint' => $subscription->endpoint,
+                'keys' => ['p256dh' => $subscription->key, 'auth' => $subscription->token]
+            ]),
+            $payload
+        );
     }
 
     /**
