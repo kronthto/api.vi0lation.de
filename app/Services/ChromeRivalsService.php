@@ -60,6 +60,10 @@ class ChromeRivalsService
 
         $res = $q->get();
 
+        if ($res->isEmpty()) {
+            return new Collection();
+        }
+
         // Hack in the name into the last element used as sample as we no longer fetch it to every row
         $res->last()->name = json_decode($playerIdQuery->first()->data)->name;
 
